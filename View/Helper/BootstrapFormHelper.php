@@ -288,6 +288,16 @@ class BootstrapFormHelper extends FormHelper {
 			}
 		}
 
+		if ($type != 'hidden') {
+			if (isset($options['help-inline'])) {
+				$input .= $this->Html->tag('span', $options['help-inline'], array('class' => 'help-inline'));
+			}
+
+			if (isset($options['help-block'])) {
+				$input .= $this->Html->tag('span', $options['help-block'], array('class' => 'help-block'));
+			}
+		}
+
 		$out['input'] = $this->Html->tag('div', $input, array('class' => 'controls'));
 		$format = $format ? $format : array('before', 'label', 'between', 'input', 'after', 'error');
 		$output = '';
