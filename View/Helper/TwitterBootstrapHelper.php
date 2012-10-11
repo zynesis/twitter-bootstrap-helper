@@ -32,8 +32,8 @@ class TwitterBootstrapHelper extends AppHelper {
 		return $this->BootstrapForm->_handleInputAddon($options);
 	}
 
-	public function input_addon($content, $input, $type = "append") {
-		return $this->BootstrapForm->inputAddon($content, $input, $type);
+	public function input_addon($fieldName, $input = array(), $options = array()) {
+		return $this->BootstrapForm->inputAddon($fieldName, $input, $options);
 	}
 
 	public function search($name = null, $options = array()) {
