@@ -281,10 +281,9 @@ class BootstrapFormHelper extends FormHelper {
 		}
 
 		if ($type != 'hidden' && $error !== false) {
-			$errMsg = $this->error($fieldName, $error);
-			if ($errMsg) {
-				$divOptions = $this->addClass($divOptions, 'error');
-				$out['error'] = $errMsg;
+			$divOptions = $this->addClass($divOptions, 'error');
+			if (!isset($options['help-inline'])) {
+				$input .= $this->Html->tag('span', $error, array('class' => 'help-inline'));
 			}
 		}
 
