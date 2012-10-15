@@ -72,6 +72,9 @@ class BootstrapFormHelper extends FormHelper {
 		// }
 		// return parent::input($fieldName, $options);
 
+		// debug($this);
+		// debug($this->request->data);
+
 		$this->setEntity($fieldName);
 
 		$options = array_merge(
@@ -226,6 +229,7 @@ class BootstrapFormHelper extends FormHelper {
 			array('before' => null, 'label' => null, 'between' => null, 'input' => null, 'after' => null, 'error' => null),
 			array('before' => $options['before'], 'label' => $label, 'between' => $options['between'], 'after' => $options['after'])
 		);
+
 		$format = null;
 		if (is_array($options['format']) && in_array('input', $options['format'])) {
 			$format = $options['format'];
@@ -306,11 +310,9 @@ class BootstrapFormHelper extends FormHelper {
 				$input = $this->{$type}($fieldName, $options);
 		}
 
-		if ($type != 'hidden' && isset($error)) {
+		$strError = $this->error($fieldName);
+		if ($type != 'hidden' && isset($strError)) {
 			$divOptions = $this->addClass($divOptions, 'error');
-			if (!isset($options['help-inline'])) {
-				$input .= $this->Html->tag('span', $error, array('class' => 'help-inline'));
-			}
 		}
 
 		if ($type === 'text') {
@@ -342,8 +344,15 @@ class BootstrapFormHelper extends FormHelper {
 			}
 		}
 
-		$out['input'] = $this->Html->tag('div', $input, array('class' => 'controls'));
+		if ($type != 'hidden') {
 
+			if (!empty($error)) {
+				$input .= $this->error($fieldName, $error, array('wrap' => 'div', 'class' => 'alert alert-error'));
+			}
+
+		}
+
+		$out['input'] = $this->Html->tag('div', $input, array('class' => 'controls'));
 		$format = $format ? $format : array('before', 'label', 'between', 'input', 'after', 'error');
 		$output = '';
 		foreach ($format as $element) {
