@@ -74,7 +74,7 @@ class BootstrapFormHelper extends FormHelper {
 
 		// debug($this);
 		// debug($this->request->data);
-
+		
 		$this->setEntity($fieldName);
 
 		$options = array_merge(
@@ -260,8 +260,6 @@ class BootstrapFormHelper extends FormHelper {
 			unset($options['help-block']);
 		}
 
-
-
 		switch ($type) {
 			case 'hidden':
 				$input = $this->hidden($fieldName, $options);
@@ -310,9 +308,10 @@ class BootstrapFormHelper extends FormHelper {
 				$input = $this->{$type}($fieldName, $options);
 		}
 
-		$strError = $this->error($fieldName);
-		if ($type != 'hidden' && isset($strError)) {
+		$strError = $this->error($fieldName, null, array('wrap' => null));
+		if ($type != 'hidden' && $error !== false && isset($strError)) {
 			$divOptions = $this->addClass($divOptions, 'error');
+			$strHelpInline = $strError;
 		}
 
 		if ($type === 'text') {
@@ -342,14 +341,6 @@ class BootstrapFormHelper extends FormHelper {
 			if (!empty($strHelpBlock)) {
 				$input .= $this->Html->tag('span', $strHelpBlock, array('class' => 'help-block'));
 			}
-		}
-
-		if ($type != 'hidden') {
-
-			if (!empty($error)) {
-				$input .= $this->error($fieldName, $error, array('wrap' => 'div', 'class' => 'alert alert-error'));
-			}
-
 		}
 
 		$out['input'] = $this->Html->tag('div', $input, array('class' => 'controls'));
