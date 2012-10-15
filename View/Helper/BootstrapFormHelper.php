@@ -232,6 +232,32 @@ class BootstrapFormHelper extends FormHelper {
 		}
 		unset($options['type'], $options['before'], $options['between'], $options['after'], $options['format']);
 
+		$strPrepend = '';
+		if (isset($options['input-prepend'])) {
+			$strPrepend = $options['input-prepend'];
+			unset($options['input-prepend']);
+		}
+
+		$strAppend = '';
+		if (isset($options['input-append'])) {
+			$strAppend = $options['input-append'];
+			unset($options['input-append']);
+		}
+
+		$strHelpInline = '';
+		if (isset($options['help-inline'])) {
+			$strHelpInline = $options['help-inline'];
+			unset($options['help-inline']);
+		}
+
+		$strHelpBlock = '';
+		if (isset($options['help-block'])) {
+			$strHelpBlock = $options['help-block'];
+			unset($options['help-block']);
+		}
+
+
+
 		switch ($type) {
 			case 'hidden':
 				$input = $this->hidden($fieldName, $options);
@@ -287,17 +313,37 @@ class BootstrapFormHelper extends FormHelper {
 			}
 		}
 
-		if ($type != 'hidden') {
-			if (isset($options['help-inline'])) {
-				$input .= $this->Html->tag('span', $options['help-inline'], array('class' => 'help-inline'));
+		if ($type === 'text') {
+
+			$strDivInputClass = '';
+			if (!empty($strPrepend) && !empty($strAppend)) { // Both
+				$strDivInputClass = 'input-prepend input-append';
+				$input = $this->Html->tag('span', $strPrepend, array('class' => 'add-on')).$input.$this->Html->tag('span', $strAppend, array('class' => 'add-on'));
+				$input = $this->Html->tag('div', $input, array('class' => $strDivInputClass));
+			} elseif (!empty($strPrepend) && empty($strAppend)) { // Prepend
+				$strDivInputClass = 'input-prepend';
+				$input = $this->Html->tag('span', $strPrepend, array('class' => 'add-on')).$input;
+				$input = $this->Html->tag('div', $input, array('class' => $strDivInputClass));
+			} elseif (empty($strPrepend) && !empty($strAppend)) { // append
+				$strDivInputClass = 'input-append';
+				$input = $input.$this->Html->tag('span', $strAppend, array('class' => 'add-on'));
+				$input = $this->Html->tag('div', $input, array('class' => $strDivInputClass));
 			}
 
-			if (isset($options['help-block'])) {
-				$input .= $this->Html->tag('span', $options['help-block'], array('class' => 'help-block'));
+		}
+
+		if ($type != 'hidden') {
+			if (!empty($strHelpInline)) {
+				$input .= $this->Html->tag('span', $strHelpInline, array('class' => 'help-inline'));
+			}
+
+			if (!empty($strHelpBlock)) {
+				$input .= $this->Html->tag('span', $strHelpBlock, array('class' => 'help-block'));
 			}
 		}
 
 		$out['input'] = $this->Html->tag('div', $input, array('class' => 'controls'));
+
 		$format = $format ? $format : array('before', 'label', 'between', 'input', 'after', 'error');
 		$output = '';
 		foreach ($format as $element) {
