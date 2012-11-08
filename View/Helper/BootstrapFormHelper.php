@@ -428,8 +428,8 @@ class BootstrapFormHelper extends FormHelper {
 			$conPrepend = $this->Html->tag('span', $input['input-prepend'], array('class' => 'input-prepend'));
 			return $this->Html->tag('div', $conPrepend.$this->basic_input($fieldName, $options), array('class' => 'input-prepend'));
 		} else {
-			$conAppend	= $this->Html->tag('span', $input['input-append'], array('class' => 'input-append'));
-			return $this->Html->tag('div', $this->basic_input($fieldName, $options).$conAppend, array('class' => 'input-prepend'));
+			$conAppend  = $this->Html->tag('span', $input['input-append'], array('class' => 'add-on')); 
+			return $this->Html->tag('div', $this->basic_input($fieldName, $options).$conAppend, array('class' => 'input-append'));
 		}
 
 	}
