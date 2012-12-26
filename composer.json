@@ -1,0 +1,12 @@
+{
+	"name": "zynesis/twitter-bootstrap-helper",
+	"description": "TwitterBootstrapHelper that is compatible with CakePHP v2.x FormHelper, forked from loadsys/twitter-bootstrap-helper",
+	"type": "cakephp-plugin",
+	"keywords": ["cakephp", "twitter bootstrap", "bootstrap"],
+	"homepage": "http://zynesis.com",
+	"license": "MIT",
+	"require": {
+		"php": ">=5.2.0",
+		"composer/installers": "*"
+	}
+}
