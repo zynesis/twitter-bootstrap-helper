@@ -7,6 +7,9 @@
 	"license": "MIT",
 	"require": {
 		"php": ">=5.2.0",
-		"composer/installers": "*"
-	}
+		"composer/installers": "1.*"
+	},
+	"extra": {
+	    "installer-name": "TwitterBootstrap"
+    }
 }
