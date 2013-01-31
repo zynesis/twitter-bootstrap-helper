@@ -2,6 +2,10 @@
 
 CakePHP helper for rendering bootstrap appropriate markup. Uses the Twitter Bootstrap 2.0.
 
+## This is a fork
+**This is a Zynesis fork of [loadsys/twitter-bootstrap-helper](https://github.com/loadsys/twitter-bootstrap-helper)**  
+with Composer support and extra compability with CakePHP's FormHelper
+
 ## Requirements
 
 * [CakePHP 2.0](https://github.com/cakephp/cakephp)
