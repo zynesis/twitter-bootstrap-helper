@@ -55,7 +55,10 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
 		);
 	}	
 
-	public function pagination($options = array()) {
+	public function pagination($options = array()) {		
+		if (!parent::hasPrev() && !parent::hasNext()) {
+			return null;
+		}
 		$klass = isset($options['class']) ? $options['class'] : '';
 		$align = $full = null;
 		if (isset($options['align'])) {
@@ -71,7 +74,8 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
 		if ($full) { $pages .= '<li>' . $this->first() . '</li>'; }
 		$pages .= '<li>' . $this->prev() . '</li>';
 		$numbers = $this->numbers();
-		$pages .= str_replace(array('<span>', '</span>'), array('<li>', '</li>'), $numbers);
+		$pages .= str_replace(array('<span>', '</span>'), array('<li>', '</li>'), $numbers);		
+		$pages = str_replace('<li><a href="#" class="active">', '<li class="active"><a href="#">', $pages);
 		$pages .= '<li>' . $this->next() . '</li>';
 		if ($full) { $pages .= '<li>' . $this->last() . '</li>'; }
 		return $this->Html->tag('div', "<ul>{$pages}</ul>", $options);
