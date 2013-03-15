@@ -48,6 +48,17 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
 		$options['separator'] = '';
 		$options['currentClass'] = 'active';
 		$numbers = parent::numbers($options);
+		$params = parent::params();
+		$needle = '>'.$params['maxPages'].'</a></span>';
+		$needle2 = '>'.$params['maxPages'].'</span>';
+		if (strpos($numbers, $needle) !== false) {
+			$numbers = strstr($numbers, $needle, true);
+			$numbers = $numbers . $needle;
+		}
+		if (strpos($numbers, $needle2) !== false) {
+			$numbers = strstr($numbers, $needle2, true);
+			$numbers = $numbers . $needle2;
+		}
 		return str_replace(
 			array('<span class="active">', '</span>'),
 			array('<span><a href="#" class="active">', '</a></span>'),
@@ -55,7 +66,20 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
 		);
 	}	
 
-	public function pagination($options = array()) {		
+	public function pagination($options = array()) {
+		if (isset($options['maxPages']) && is_int($options['maxPages'])) {
+			$model = parent::defaultModel();
+			$this->request->params['paging'][$model]['maxPages'] = $options['maxPages'];
+			if (isset($this->request->params['paging']) && !empty($this->request->params['paging'][$model])) {
+				$params = $this->request->params['paging'][$model];
+				$this->request->params['paging'][$model]['count'] = $options['maxPages'] * $params['limit'];
+				if ($params['page'] > $options['maxPages']) {
+					$this->request->params['paging'][$model]['page'] = $options['maxPages'];
+					$this->request->params['paging'][$model]['options']['page'] = $options['maxPages'];
+					$this->request->params['paging'][$model]['nextPage'] = false;
+				}
+			}
+		}
 		if (!parent::hasPrev() && !parent::hasNext()) {
 			return null;
 		}
