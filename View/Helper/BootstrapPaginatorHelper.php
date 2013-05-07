@@ -49,16 +49,18 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
 		$options['currentClass'] = 'active';
 		$numbers = parent::numbers($options);
 		$params = parent::params();
-		$needle = '>'.$params['maxPages'].'</a></span>';
-		$needle2 = '>'.$params['maxPages'].'</span>';
-		if (strpos($numbers, $needle) !== false) {
-			$numbers = strstr($numbers, $needle, true);
-			$numbers = $numbers . $needle;
-		}
-		if (strpos($numbers, $needle2) !== false) {
-			$numbers = strstr($numbers, $needle2, true);
-			$numbers = $numbers . $needle2;
-		}
+		if (isset($params['maxPages'])) {
+			$needle = '>'.$params['maxPages'].'</a></span>';
+			$needle2 = '>'.$params['maxPages'].'</span>';
+			if (strpos($numbers, $needle) !== false) {
+				$numbers = strstr($numbers, $needle, true);
+				$numbers = $numbers . $needle;
+			}
+			if (strpos($numbers, $needle2) !== false) {
+				$numbers = strstr($numbers, $needle2, true);
+				$numbers = $numbers . $needle2;
+			}
+		}		
 		return str_replace(
 			array('<span class="active">', '</span>'),
 			array('<span><a href="#" class="active">', '</a></span>'),
