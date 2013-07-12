@@ -74,7 +74,7 @@ class BootstrapFormHelper extends FormHelper {
 
 		// debug($this);
 		// debug($this->request->data);
-		
+
 		$this->setEntity($fieldName);
 
 		$options = array_merge(
@@ -264,6 +264,9 @@ class BootstrapFormHelper extends FormHelper {
 		if (isset($options['radio-label'])) {
 			$radioLabel = $options['radio-label'];
 			unset($options['radio-label']);
+		} elseif (isset($options['label'])) {
+			$radioLabel = $options['label'];
+			unset($options['label']);
 		}
 
 		switch ($type) {
@@ -377,6 +380,9 @@ class BootstrapFormHelper extends FormHelper {
 			if (!empty($radioLabel)) {
 				$out['input'] = '<label class="control-label">' . $radioLabel . '</label>' . $out['input'];
 			}
+
+			// Remove .radio class from <div> as bootstrap styles .radio for the input element itself
+			$divOptions['class'] = str_replace('radio ', '', $divOptions['class']);
 		}
 
 		$format = $format ? $format : array('before', 'label', 'between', 'input', 'after', 'error');
@@ -391,6 +397,7 @@ class BootstrapFormHelper extends FormHelper {
 			unset($divOptions['tag']);
 			$output = $this->Html->tag($tag, $output, $divOptions);
 		}
+
 		return $output;
 	}
 
@@ -463,7 +470,7 @@ class BootstrapFormHelper extends FormHelper {
 			$conPrepend = $this->Html->tag('span', $input['input-prepend'], array('class' => 'input-prepend'));
 			return $this->Html->tag('div', $conPrepend.$this->basic_input($fieldName, $options), array('class' => 'input-prepend'));
 		} else {
-			$conAppend  = $this->Html->tag('span', $input['input-append'], array('class' => 'add-on')); 
+			$conAppend  = $this->Html->tag('span', $input['input-append'], array('class' => 'add-on'));
 			return $this->Html->tag('div', $this->basic_input($fieldName, $options).$conAppend, array('class' => 'input-append'));
 		}
 
