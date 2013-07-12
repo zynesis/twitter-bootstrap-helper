@@ -190,7 +190,7 @@ class BootstrapFormHelper extends FormHelper {
 		}
 
 		if ($options['type'] === 'radio') {
-			$label = false;
+			$label = false; // If true will error display
 			if (isset($options['options'])) {
 				$radioOptions = (array)$options['options'];
 				unset($options['options']);
@@ -260,6 +260,12 @@ class BootstrapFormHelper extends FormHelper {
 			unset($options['help-block']);
 		}
 
+		$radioLabel = '';
+		if (isset($options['radio-label'])) {
+			$radioLabel = $options['radio-label'];
+			unset($options['radio-label']);
+		}
+
 		switch ($type) {
 			case 'hidden':
 				$input = $this->hidden($fieldName, $options);
@@ -275,7 +281,29 @@ class BootstrapFormHelper extends FormHelper {
 					$options['between'] = $out['between'];
 					$out['between'] = null;
 				}
+				if (!isset($options['legend'])) {
+					$options['legend'] = false;
+				}
+				$options['hiddenField'] = false;
 				$input = $this->radio($fieldName, $radioOptions, $options);
+				$explodeInput = explode('<', $input);
+				$labelData = array();
+				$inputData = array();
+				foreach ($explodeInput as $key => $value) {
+					if (!empty($value)) {
+						if (strpos($value, 'label for="') !== false) {
+							$labelData[] = '<' . $value;
+						}
+						if (strpos($value, 'input type="radio"') !== false) {
+							$inputData[] = '<' . $value;
+						}
+					}
+				}
+				$result = null;
+				foreach ($labelData as $key => $templabel) {
+					$result .= str_replace('">', '" class="radio inline">' . $inputData[$key], $templabel) . '</label>';
+				}
+				$input = $result;
 			break;
 			case 'file':
 				$input = $this->file($fieldName, $options);
@@ -344,6 +372,13 @@ class BootstrapFormHelper extends FormHelper {
 		}
 
 		$out['input'] = $this->Html->tag('div', $input, array('class' => 'controls'));
+
+		if ($type === 'radio') {
+			if (!empty($radioLabel)) {
+				$out['input'] = '<label class="control-label">' . $radioLabel . '</label>' . $out['input'];
+			}
+		}
+
 		$format = $format ? $format : array('before', 'label', 'between', 'input', 'after', 'error');
 		$output = '';
 		foreach ($format as $element) {
