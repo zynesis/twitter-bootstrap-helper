@@ -156,7 +156,7 @@ class BootstrapHelper extends AppHelper {
 	 */
 	public function flashes($options = array()) {
 		if (!isset($options["keys"]) || !$options["keys"]) {
-			$options["keys"] = array("info", "success", "error", "warning", "flash");
+			$options["keys"] = array("info", "success", "danger", "warning", "flash");
 		}
 		if (isset($options["auth"]) && $options["auth"]) {
 			$options["keys"][] = "auth";

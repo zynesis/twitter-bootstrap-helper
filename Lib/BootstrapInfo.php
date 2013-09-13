@@ -86,7 +86,7 @@ class BootstrapInfo {
 		if ($style && isset($this->styleMap[$style])) {
 			$s = $prefix . $this->styleMap[$style];
 		}
-
+		
 		$str = trim(implode(' ', array_filter(array($main, $s, $klass))));
 		return $this->_filter($str);
 	}

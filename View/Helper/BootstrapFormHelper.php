@@ -33,6 +33,7 @@ class BootstrapFormHelper extends FormHelper {
 			$type = $opt["formType"];
 			unset($opt["formType"]);
 		}
+		
 		$opt['class'] = $this->BootstrapInfo->stylesFor('form', $type, $klass);
 		return parent::create($model, $opt);
 	}
@@ -167,8 +168,6 @@ class BootstrapFormHelper extends FormHelper {
 		unset($options['div']);
 
 		if (!empty($div)) {
-			$divOptions['class'] = 'input';
-			$divOptions = $this->addClass($divOptions, $options['type']);
 			if (is_string($div)) {
 				$divOptions['class'] = $div;
 			} elseif (is_array($div)) {
@@ -177,7 +176,7 @@ class BootstrapFormHelper extends FormHelper {
 			if ($this->_introspectModel($modelKey, 'validates', $fieldKey)) {
 				$divOptions = $this->addClass($divOptions, 'required');
 			}
-			$divOptions = $this->addClass($divOptions, 'control-group');
+			$divOptions = $this->addClass($divOptions, 'form-group');
 			if (!isset($divOptions['tag'])) {
 				$divOptions['tag'] = 'div';
 			}
@@ -196,12 +195,16 @@ class BootstrapFormHelper extends FormHelper {
 				unset($options['options']);
 			}
 		}
+		
 
 		if ($label !== false) {
 			if (is_string($label)) {
 				$label = array('text' => $label);
 			}
-			$label['class'] = 'control-label';
+			if (isset($options['horizontal'])) {
+				$label['class'] = ' col-lg-2';
+			}
+			$label['class'] = $this->addClass($label, 'control-label');
 			$label = parent::_inputLabel($fieldName, $label, $options);
 		}
 
@@ -268,7 +271,7 @@ class BootstrapFormHelper extends FormHelper {
 			$radioLabel = $options['label'];
 			unset($options['label']);
 		}
-
+		
 		switch ($type) {
 			case 'hidden':
 				$input = $this->hidden($fieldName, $options);
@@ -315,6 +318,7 @@ class BootstrapFormHelper extends FormHelper {
 				$options += array('options' => array(), 'value' => $selected);
 				$list = $options['options'];
 				unset($options['options']);
+				$options['class'] = (empty($options['class'])) ? 'form-control' : $options['class'].' form-control';
 				$input = $this->select($fieldName, $list, $options);
 			break;
 			case 'time':
@@ -330,10 +334,20 @@ class BootstrapFormHelper extends FormHelper {
 				$input = $this->dateTime($fieldName, $dateFormat, $timeFormat, $options);
 			break;
 			case 'textarea':
+				$options['class'] = (empty($options['class'])) ? 'form-control' : $options['class'].' form-control';
 				$input = $this->textarea($fieldName, $options + array('cols' => '30', 'rows' => '6'));
 			break;
 			case 'url':
+				$options['class'] = (empty($options['class'])) ? 'form-control' : $options['class'].' form-control';
 				$input = $this->text($fieldName, array('type' => 'url') + $options);
+			break;
+			case 'text':
+				$options['class'] = (empty($options['class'])) ? 'form-control' : $options['class'].' form-control';
+				$input = $this->text($fieldName, $options);
+			break;
+			case 'password':
+				$options['class'] = (empty($options['class'])) ? 'form-control' : $options['class'].' form-control';
+				$input = $this->password($fieldName, $options);
 			break;
 			default:
 				$input = $this->{$type}($fieldName, $options);
@@ -363,7 +377,7 @@ class BootstrapFormHelper extends FormHelper {
 			}
 
 		}
-
+		
 		if ($type != 'hidden') {
 			if (!empty($strHelpInline)) {
 				$input .= $this->Html->tag('span', $strHelpInline, array('class' => 'help-inline'));
@@ -373,8 +387,12 @@ class BootstrapFormHelper extends FormHelper {
 				$input .= $this->Html->tag('span', $strHelpBlock, array('class' => 'help-block'));
 			}
 		}
-
-		$out['input'] = $this->Html->tag('div', $input, array('class' => 'controls'));
+		
+		if (isset($options['horizontal'])) {
+			$input = $this->Html->tag('div', $input, array('class' => 'col-lg-10'));
+		}
+		
+		$out['input'] = $input;
 
 		if ($type === 'radio') {
 			if (!empty($radioLabel)) {
@@ -411,6 +429,9 @@ class BootstrapFormHelper extends FormHelper {
 	 * @return string
 	 */
 	public function button($title, $options = array()) {
+		if (isset($options['btn-horizontal'])) {
+			$options['div'] = array('class' => 'col-lg-offset-2 col-lg-10');
+		}
 		$options = $this->BootstrapInfo->button($options);
 		return parent::button($title, $options);
 	}
@@ -439,6 +460,9 @@ class BootstrapFormHelper extends FormHelper {
 	 * @return string
 	 */
 	public function submit($caption = null, $options = array()) {
+		if (isset($options['btn-horizontal'])) {
+			$options['div'] = array('class' => 'col-lg-offset-2 col-lg-10');
+		}
 		$options = $this->BootstrapInfo->button($options);
 		return parent::submit($caption, $options);
 	}
