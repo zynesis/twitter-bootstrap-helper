@@ -272,6 +272,12 @@ class BootstrapFormHelper extends FormHelper {
 			unset($options['label']);
 		}
 		
+		$fileUploadNew = '';
+		if (isset($options['file-upload-new'])) {
+			$fileUploadNew = $options['file-upload-new'];
+			unset($options['file-upload-new']);
+		}
+				
 		switch ($type) {
 			case 'hidden':
 				$input = $this->hidden($fieldName, $options);
@@ -364,7 +370,7 @@ class BootstrapFormHelper extends FormHelper {
 			$strDivInputClass = '';
 			if (!empty($strPrepend) && !empty($strAppend)) { // Both
 				$strDivInputClass = 'input-prepend input-append';
-				$input = $this->Html->tag('span', $strPrepend, array('class' => 'add-on')).$input.$this->Html->tag('span', $strAppend, array('class' => 'add-on'));
+				$input = $this->Html->tag('span', $strPrepend, array('class' => 'input-group-addon')).$input.$this->Html->tag('span', $strAppend, array('class' => 'add-on'));
 				$input = $this->Html->tag('div', $input, array('class' => $strDivInputClass));
 			} elseif (!empty($strPrepend) && empty($strAppend)) { // Prepend
 				$strDivInputClass = 'input-prepend';
@@ -376,6 +382,16 @@ class BootstrapFormHelper extends FormHelper {
 				$input = $this->Html->tag('div', $input, array('class' => $strDivInputClass));
 			}
 
+		}
+		
+		if (!empty($fileUploadNew)) {
+			$input = $this->Html->tag('span', 'Change', array('class' => 'btn btn-warning spacer-left fileupload-exists')).$input;
+			$input = $this->Html->tag('span', 'Select image', array('class' => 'btn btn-primary spacer-left fileupload-new')).$input;
+			$input = $this->Html->tag('div', $input, array('class' => 'btn-file', 'style' => 'display: inline-block;'));
+			$input = $input.$this->Html->tag('a', 'Remove', array('class' => 'btn btn-danger spacer-left fileupload-exists', 'data-dismiss' => 'fileupload'));
+			$input = $this->Html->tag('div', '', array('class' => 'fileupload-preview fileupload-exists thumbnail', 'style' => 'width:'.$fileUploadNew['thumbnail']['width'].'px;height:'.$fileUploadNew['thumbnail']['height'].'px;')).$input;
+			$input = $this->Html->tag('div', '', array('class' => 'fileupload-new thumbnail', 'style' => 'width:'.$fileUploadNew['thumbnail']['width'].'px;height:'.$fileUploadNew['thumbnail']['height'].'px;')).$input;
+			$input = $this->Html->tag('div', $input, array('class' => 'fileupload fileupload-new', 'data-provides' => 'fileupload'));
 		}
 		
 		if ($type != 'hidden') {

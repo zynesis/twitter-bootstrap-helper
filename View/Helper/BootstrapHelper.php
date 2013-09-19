@@ -93,11 +93,8 @@ class BootstrapHelper extends AppHelper {
 	 * @access public
 	 * @return void
 	 */
-	public function icon($name, $color = null) {
-		if ($color === "white") {
-			$color = "icon-{$color}";
-		}
-		$klass = $this->BootstrapInfo->stylesFor('icon', $name, $color);
+	public function icon($name) {
+		$klass = $this->BootstrapInfo->stylesFor('icon', $name);
 		return $this->Html->tag("i", false, array("class" => $klass));
 	}
 

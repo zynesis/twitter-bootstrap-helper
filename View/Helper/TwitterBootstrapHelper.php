@@ -92,8 +92,8 @@ class TwitterBootstrapHelper extends AppHelper {
 		return $this->Bootstrap->badge($num, $style, $options);
 	}
 
-	public function icon($name, $color = "black") {
-		return $this->Bootstrap->icon($name, $color);
+	public function icon($name) {
+		return $this->Bootstrap->icon($name);
 	}
 
 	public function progress($options = array()) {

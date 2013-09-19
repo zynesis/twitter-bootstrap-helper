@@ -59,7 +59,7 @@ class BootstrapInfo {
 				$prefix = 'form-';
 				break;
 			case 'icon':
-				$prefix = 'icon-';
+				$prefix = 'glyphicon glyphicon-';
 				if (!$style) {
 					throw new Exception("Must give an icon to render");
 				}
