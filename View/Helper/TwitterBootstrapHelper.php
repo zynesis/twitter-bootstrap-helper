@@ -5,7 +5,8 @@ class TwitterBootstrapHelper extends AppHelper {
 	public $helpers = array(
 		"TwitterBootstrap.Bootstrap",
 		"TwitterBootstrap.BootstrapHtml",
-		"TwitterBootstrap.BootstrapForm"
+		"TwitterBootstrap.BootstrapForm",
+		"TwitterBootstrap.BootstrapPaginator"
 	);
 
 	public function basic_input($field, $options = array()) {
@@ -123,5 +124,16 @@ class TwitterBootstrapHelper extends AppHelper {
 	public function page_header($title){
 		return $this->Bootstrap->pageHeader($title);
 	}
-
+	
+	public function prev($text = '&lt;', $opt = array(), $disabledText = '&lt;', $disabledOpt = array()) {
+		return $this->BootstrapPaginator->prev($text, $opt, $disabledText, $disabledOpt);
+	}
+	
+	public function next($text = '&gt;', $opt = array(), $disabledText = '&gt;', $disabledOpt = array()) {
+		return $this->BootstrapPaginator->next($text, $opt, $disabledText, $disabledOpt);
+	}
+	
+	public function numbers($options = array()) {
+		return $this->BootstrapPaginator->numbers($options = array());
+	}
 }

@@ -13,23 +13,23 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
 	}
 
 	public function next($text = '&gt;', $opt = array(), $disabledText = '&gt;', $disabledOpt = array()) {
-		$opt['tag'] = $disabledOpt['tag'] = 'span';
+		$opt['tag'] = $disabledOpt['tag'] = 'li';
 		$opt['escape'] = $disabledOpt['escape'] = false;
 		$next = parent::next($text, $opt, $disabledText, $disabledOpt);
 		$next = str_replace(array('<span class="next">', '</span>'), '', $next);
 		if (!parent::hasNext()) {
-			$next = '<a href="#" class="disabled" rel="next">' . trim($next) . '</a>';
+			$next = '<li href="#" class="disabled" rel="next"><a>' . trim($text) . '</a></li>';
 		}
 		return $next;
 	}
 
 	public function prev($text = '&lt;', $opt = array(), $disabledText = '&lt;', $disabledOpt = array()) {
-		$opt['tag'] = $disabledOpt['tag'] = 'span';
+		$opt['tag'] = $disabledOpt['tag'] = 'li';
 		$opt['escape'] = $disabledOpt['escape'] = false;
 		$prev = parent::prev($text, $opt, $disabledText, $disabledOpt);
 		$prev = str_replace(array('<span class="prev">', '</span>'), '', $prev);
 		if (!parent::hasPrev()) {
-			$prev = '<a href="#" class="disabled" rel="prev">' . trim($prev) . '</a>';
+			$prev = '<li href="#" class="disabled" rel="prev"><a>' . trim($text) . '</a></li>';
 		}
 		return $prev;
 	}
@@ -60,10 +60,10 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
 				$numbers = strstr($numbers, $needle2, true);
 				$numbers = $numbers . $needle2;
 			}
-		}		
+		}
 		return str_replace(
-			array('<span class="active">', '</span>'),
-			array('<span><a href="#" class="active">', '</a></span>'),
+			array('<span>', '<span class="active">', '</span>'),
+			array('<li>', '<li class="active"><span>', '</span></li>'),
 			$numbers
 		);
 	}	
