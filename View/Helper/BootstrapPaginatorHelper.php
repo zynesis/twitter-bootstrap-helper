@@ -9,9 +9,17 @@ class BootstrapPaginatorHelper extends PaginatorHelper {
 
 	public function __construct(View $View, $options = array()) {
 		parent::__construct($View, $options);
+		$this->options['url'] = array_merge($this->request->params['pass'], $this->request->params['named']);
+		if (!empty($this->request->query)) {
+			$this->options['url']['?'] = $this->request->query;
+		}
 		$this->BootstrapInfo = new BootstrapInfo();
 	}
-
+	
+	public function counter($options = array()) {
+		return parent::counter($options);
+	}
+	
 	public function next($text = '&gt;', $opt = array(), $disabledText = '&gt;', $disabledOpt = array()) {
 		$opt['tag'] = $disabledOpt['tag'] = 'li';
 		$opt['escape'] = $disabledOpt['escape'] = false;

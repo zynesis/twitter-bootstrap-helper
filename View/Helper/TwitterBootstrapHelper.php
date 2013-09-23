@@ -125,6 +125,10 @@ class TwitterBootstrapHelper extends AppHelper {
 		return $this->Bootstrap->pageHeader($title);
 	}
 	
+	public function counter($opt = array()){
+		return $this->BootstrapPaginator->counter($opt);
+	}
+	
 	public function prev($text = '&lt;', $opt = array(), $disabledText = '&lt;', $disabledOpt = array()) {
 		return $this->BootstrapPaginator->prev($text, $opt, $disabledText, $disabledOpt);
 	}

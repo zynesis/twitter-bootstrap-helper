@@ -244,13 +244,25 @@ class BootstrapFormHelper extends FormHelper {
 			$strPrepend = $options['input-prepend'];
 			unset($options['input-prepend']);
 		}
+		
+		$strPrependBtn = '';
+		if (isset($options['input-prepend-btn'])) {
+			$strPrependBtn = $options['input-prepend-btn'];
+			unset($options['input-prepend-btn']);
+		}
 
 		$strAppend = '';
 		if (isset($options['input-append'])) {
 			$strAppend = $options['input-append'];
 			unset($options['input-append']);
 		}
-
+		
+		$strAppendBtn = '';
+		if (isset($options['input-append-btn'])) {
+			$strAppendBtn = $options['input-append-btn'];
+			unset($options['input-append-btn']);
+		}
+		
 		$strHelpInline = '';
 		if (isset($options['help-inline'])) {
 			$strHelpInline = $options['help-inline'];
@@ -367,18 +379,26 @@ class BootstrapFormHelper extends FormHelper {
 
 		if ($type === 'text') {
 
-			$strDivInputClass = '';
+			$strDivInputClass = 'input-group';
 			if (!empty($strPrepend) && !empty($strAppend)) { // Both
-				$strDivInputClass = 'input-prepend input-append';
-				$input = $this->Html->tag('span', $strPrepend, array('class' => 'input-group-addon')).$input.$this->Html->tag('span', $strAppend, array('class' => 'add-on'));
+				$input = $this->Html->tag('span', $strPrepend, array('class' => 'input-group-addon')).$input.$this->Html->tag('span', $strAppend, array('class' => 'input-group-addon'));
 				$input = $this->Html->tag('div', $input, array('class' => $strDivInputClass));
 			} elseif (!empty($strPrepend) && empty($strAppend)) { // Prepend
-				$strDivInputClass = 'input-prepend';
-				$input = $this->Html->tag('span', $strPrepend, array('class' => 'add-on')).$input;
+				$input = $this->Html->tag('span', $strPrepend, array('class' => 'input-group-addon')).$input;
 				$input = $this->Html->tag('div', $input, array('class' => $strDivInputClass));
-			} elseif (empty($strPrepend) && !empty($strAppend)) { // append
-				$strDivInputClass = 'input-append';
-				$input = $input.$this->Html->tag('span', $strAppend, array('class' => 'add-on'));
+			} elseif (empty($strPrepend) && !empty($strAppend)) { // Append
+				$input = $input.$this->Html->tag('span', $strAppend, array('class' => 'input-group-addon'));
+				$input = $this->Html->tag('div', $input, array('class' => $strDivInputClass));
+			}
+			
+			if (!empty($strPrependBtn) && !empty($strAppendBtn)) { // Both Buttons
+				$input = $this->Html->tag('span', $strPrependBtn, array('class' => 'input-group-btn')).$input.$this->Html->tag('span', $strAppendBtn, array('class' => 'input-group-btn'));
+				$input = $this->Html->tag('div', $input, array('class' => $strDivInputClass));
+			} elseif (!empty($strPrependBtn) && empty($strAppendBtn)) { // Prepend Button
+				$input = $this->Html->tag('span', $strPrependBtn, array('class' => 'input-group-btn')).$input;
+				$input = $this->Html->tag('div', $input, array('class' => $strDivInputClass));
+			} elseif (empty($strPrependBtn) && !empty($strAppendBtn)) { // Append Button
+				$input = $input.$this->Html->tag('span', $strAppendBtn, array('class' => 'input-group-btn'));
 				$input = $this->Html->tag('div', $input, array('class' => $strDivInputClass));
 			}
 
