@@ -409,7 +409,7 @@ class BootstrapFormHelper extends FormHelper {
 			$input = $this->Html->tag('span', 'Select image', array('class' => 'btn btn-primary spacer-left fileupload-new')).$input;
 			$input = $this->Html->tag('div', $input, array('class' => 'btn-file', 'style' => 'display: inline-block;'));
 			$input = $input.$this->Html->tag('a', 'Remove', array('class' => 'btn btn-danger spacer-left fileupload-exists', 'data-dismiss' => 'fileupload'));
-			$input = $this->Html->tag('div', '', array('class' => 'fileupload-preview fileupload-exists thumbnail', 'style' => 'width:'.$fileUploadNew['thumbnail']['width'].'px;height:'.$fileUploadNew['thumbnail']['height'].'px;')).$input;
+			$input = $this->Html->tag('div', '', array('class' => 'fileupload-preview fileupload-exists thumbnail')).$input;
 			$input = $this->Html->tag('div', '', array('class' => 'fileupload-new thumbnail', 'style' => 'width:'.$fileUploadNew['thumbnail']['width'].'px;height:'.$fileUploadNew['thumbnail']['height'].'px;')).$input;
 			$input = $this->Html->tag('div', $input, array('class' => 'fileupload fileupload-new', 'data-provides' => 'fileupload'));
 		}
